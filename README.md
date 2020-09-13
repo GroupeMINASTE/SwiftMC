@@ -12,6 +12,8 @@ A Minecraft server and proxy written from scratch in Swift.
 
 > **NOTICE**: This swift package is in active development, so the code may build with warnings or errors
 
+Trello board for the project: [https://trello.com/b/GWH4gv9g/swiftmc](https://trello.com/b/GWH4gv9g/swiftmc)
+
 ## Installation (run a server)
 
 Clone the repository and start the server
