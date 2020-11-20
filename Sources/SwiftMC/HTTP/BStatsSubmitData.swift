@@ -29,8 +29,8 @@ public class BStatsSubmitData {
         self.server = server
     }
     
-    public func fetch(in eventLoopGroup: EventLoopGroup) {
-        let client = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+    public func fetch() {
+        let client = HTTPClient(eventLoopGroupProvider: .createNew)
         
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"

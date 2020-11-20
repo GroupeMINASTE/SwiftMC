@@ -33,8 +33,8 @@ public class MojangJoin {
         self.serverId = serverId
     }
     
-    public func fetch(in eventLoopGroup: EventLoopGroup, completionHandler: @escaping (Bool) -> ()) {
-        let client = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+    public func fetch(completionHandler: @escaping (Bool) -> ()) {
+        let client = HTTPClient(eventLoopGroupProvider: .createNew)
         
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"

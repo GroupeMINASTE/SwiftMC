@@ -156,7 +156,7 @@ public class RemoteWorld: WorldProtocol {
         let encodedHash = Data(Digest.sha1(idBytes + sharedKey + encryptionRequest.publicKey)).toSignedHexString()
         
         // Verify identity with Mojang
-        MojangJoin(accessToken: accessToken, selectedProfile: client.getUUID().replacingOccurrences(of: "-", with: ""), serverId: encodedHash).fetch(in: client.server.eventLoopGroup) { result in
+        MojangJoin(accessToken: accessToken, selectedProfile: client.getUUID().replacingOccurrences(of: "-", with: ""), serverId: encodedHash).fetch { result in
             if result, let secKey = EncryptionManager.getSecKey(from: Data(encryptionRequest.publicKey)), let encodedKey = EncryptionManager.encrypt(content: Data(sharedKey) as CFData, publicKey: secKey, usingAlgorithm: .rsaEncryptionPKCS1), let encodedToken = EncryptionManager.encrypt(content: Data(encryptionRequest.verifyToken) as CFData, publicKey: secKey, usingAlgorithm: .rsaEncryptionPKCS1) {
                 // Client is authentificated
                 client.remoteChannel?.send(packet: EncryptionResponse(sharedSecret: [UInt8](encodedKey as Data), verifyToken: [UInt8](encodedToken as Data)), sharedKey: sharedKey)

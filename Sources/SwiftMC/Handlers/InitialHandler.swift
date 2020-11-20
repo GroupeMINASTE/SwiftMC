@@ -176,7 +176,7 @@ class InitialHandler: PacketHandler {
             let encodedHash = Data(Digest.sha1([UInt8](idBytes) + [UInt8](sharedKey) + [UInt8](publicKeyData))).toSignedHexString()
             
             // Complete the request
-            MojangHasJoined(username: username, serverId: encodedHash).fetch(in: channel.server.eventLoopGroup) { dict in
+            MojangHasJoined(username: username, serverId: encodedHash).fetch { dict in
                 // Check data validity
                 if let dict = dict {
                     // Read data
