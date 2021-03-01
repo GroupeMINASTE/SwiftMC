@@ -20,6 +20,7 @@
 import Foundation
 import NIO
 import CompressNIO
+import CryptoSwift
 
 class MinecraftEncoder: MessageToByteEncoder {
     
@@ -84,8 +85,7 @@ class MinecraftEncoder: MessageToByteEncoder {
     // Encryption encoder
     func encryptionEncoder(from: inout ByteBuffer, out: inout ByteBuffer) throws {
         if from.readableBytes > 0 {
-            // AES(key: sharedKey, blockMode: CFB(iv: iv), padding: .noPadding).encrypt(bytes)
-            if let sharedKey = channel?.sharedKey, let encrypted = EncryptionManager.crypt(.encrypt, data: Data(buffer: from), key: Data(sharedKey), iv: Data(iv)) {
+            if let sharedKey = channel?.sharedKey, let bytes = from.readBytes(length: from.readableBytes), let encrypted = try? AES(key: sharedKey, blockMode: CFB(iv: iv, segmentSize: .cfb8), padding: .noPadding).encrypt(bytes) {
                 // Encrypt data with given key
                 out.writeBytes([UInt8](encrypted))
                 
